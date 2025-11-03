@@ -1,0 +1,89 @@
+---
+name: Deploy PALS
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: "preview"
+        type: string
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+      ANTHROPIC_API_KEY:
+          required: true
+
+jobs:
+  deploy:
+    name: Build and Deploy PALS
+    runs-on: ubuntu-latest-8-cores
+    strategy:
+      matrix:
+        bun-version: [latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Given Bun's exceptional speed, we might not need caching at all.
+      # Simply using bun install without caching can be faster than the overhead of saving/restoring cache,
+      # particularly for smaller dependency trees.
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ matrix.bun-version }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build console project (preview)
+        if: ${{ inputs.environment == 'preview' }}
+        # NOTE - if you are putting the template into a monorepor, you'll need the "working-directory" param here:
+        # working-directory: apps/pals
+        run: CLOUDFLARE_ENV=preview bun run build
+
+      - name: Build console project (prod)
+        if: ${{ inputs.environment == 'prod' }}
+        # NOTE - if you are putting the template into a monorepor, you'll need the "working-directory" param here:
+        # working-directory: apps/pals
+        run: bun run build
+
+      - name: Run console database migrations (preview)
+        if: ${{ inputs.environment == 'preview' }}
+        # NOTE - if you are putting the template into a monorepor, you'll need the "working-directory" param here:
+        # working-directory: apps/pals
+        run: bun run ci:db:migrate:preview
+        env:
+          CI: true
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Run console database migrations (prod)
+        if: ${{ inputs.environment == 'prod' }}
+        # NOTE - if you are putting the template into a monorepor, you'll need the "working-directory" param here:
+        # working-directory: apps/pals
+        run: bun run ci:db:migrate:prod
+        env:
+          CI: true
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # NOTE - The build step for vite-powered apps will determine the env for us, so we do not need a separate step for preview/prod
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # NOTE - if you are putting the template into a monorepor, you'll need the "workingDirectory" param here:
+          # workingDirectory: "apps/pals/dist/pals"
+          workingDirectory: "dist/fp_cf_starter"
+          command: deploy --config dist/fp_cf_starter/wrangler.json
+          secrets: |
+            ANTHROPIC_API_KEY
+            OPENAI_API_KEY
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          WRANGLER_LOG: "debug"

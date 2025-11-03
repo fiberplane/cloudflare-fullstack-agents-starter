@@ -1,0 +1,90 @@
+---
+name: Test PALS
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  test:
+    name: Test PALS
+    runs-on: ubuntu-latest-8-cores
+    strategy:
+      matrix:
+        bun-version: [latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Given Bun's exceptional speed, we might not need caching at all.
+      # Simply using bun install without caching can be faster than the overhead of saving/restoring cache,
+      # particularly for smaller dependency trees.
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ matrix.bun-version }}
+
+      - name: Set up Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: 2.2.6
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run format check
+        id: format
+        run: bun run lint
+
+      - name: Run typecheck
+        id: typecheck
+        run: bun run typecheck
+
+      - name: Run unit tests
+        id: tests
+        # NOTE - if you are putting the template into a monorepo, you'll need the "working-directory" param here:
+        # working-directory: apps/pals
+        run: bun run test run
+
+      - name: Check for Drizzle Schema Changes
+        # NOTE - if you are putting the template into a monorepo, you'll need the "working-directory" param here:
+        # working-directory: apps/pals
+        run: |
+          # Run with timeout and capture output
+          OUTPUT=$(timeout 10s bun run ci:db:generate 2>&1 || true)
+
+          # Check if the process timed out or requested input
+          if echo "$OUTPUT" | grep -q "Is.*column.*created or renamed"; then
+            echo "$OUTPUT"
+            echo ""
+            echo "🛑 Schema changes detected! (Interactive prompt was triggered)"
+            echo "Please run 'bun run db:generate' locally and commit the migration files."
+            exit 1
+          fi
+
+          # Check if the output contains "No schema changes"
+          if ! echo "$OUTPUT" | grep -q "No schema changes"; then
+            echo "⚠️ Unexpected output from drizzle-kit:"
+            echo "$OUTPUT"
+            echo "Please run 'bun run db:generate' locally to verify there are no schema changes."
+            exit 1
+          fi
+
+          echo "✅ No schema changes detected."
+
+      - name: Build project
+        id: build
+        # NOTE - if you are putting the template into a monorepo, you'll need the "working-directory" param here:
+        # working-directory: apps/pals
+        run: bun run build
+
+  deploy-to-preview:
+    name: Deploy PALS
+    uses: ./.github/workflows/pals-deploy.yaml
+    needs: test
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    with:
+      environment: preview
+    secrets: inherit

@@ -1,0 +1,20 @@
+name: Deploy PALS (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: "preview"
+        type: choice
+        options:
+          - preview
+          - prod
+
+jobs:
+  deploy:
+    name: Deploy PALS
+    uses: ./.github/workflows/pals-deploy.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+    secrets: inherit

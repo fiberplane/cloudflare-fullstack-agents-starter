@@ -1,0 +1,346 @@
+/** biome-ignore-all lint/style/noDescendingSpecificity: this is a CSS module */
+
+.markdown {
+  min-width: 0;
+}
+
+/* Headings */
+.h1 {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+  text-align: revert;
+  text-transform: revert;
+  line-height: normal;
+}
+
+.h2 {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+  text-align: revert;
+  text-transform: revert;
+  line-height: normal;
+}
+
+.h3 {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+  text-align: revert;
+  text-transform: revert;
+  line-height: normal;
+}
+
+.h4 {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+  text-align: revert;
+  text-transform: revert;
+  line-height: normal;
+}
+
+.h5 {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+  text-align: revert;
+  text-transform: revert;
+  line-height: normal;
+}
+
+.h6 {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+  text-align: revert;
+  text-transform: revert;
+  line-height: normal;
+}
+
+.paragraph {
+  margin: revert;
+  padding: revert;
+  /* margin: 0.75rem 0;
+  padding: 0; */
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+  text-align: revert;
+  line-height: revert;
+}
+
+.paragraph:first-child {
+  margin-top: 0;
+}
+
+.paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.unorderedList {
+  margin: revert;
+  padding: revert;
+  list-style: revert;
+  margin-left: 18px;
+  /* margin: 0;
+  padding: 0;
+  list-style-type: disc;
+  margin-left: 1.125rem; */
+  padding-left: 0;
+}
+
+.orderedList {
+  margin: revert;
+  padding: revert;
+  /* margin: 0;
+  padding: 0; */
+  list-style: revert;
+  margin-left: 28px; /* 28px = 1.75rem */
+  /* margin-left: 1.75rem; */
+  padding-left: 0;
+}
+
+.listItem {
+  margin: revert;
+  padding: revert;
+  /* margin: 0.125rem 0;
+  padding: 0; */
+  list-style: revert;
+  padding-left: 1px;
+  /* padding-left: 0.0625rem; */
+}
+
+.listItem .unorderedList,
+.listItem .orderedList {
+  margin-top: 0.5em;
+  /* margin-top: 0.5rem; */
+  margin-left: 20px;
+  /* margin-left: 1.25rem;  */
+  margin-bottom: 0.5em;
+  /* margin-bottom: 0.5rem; */
+}
+
+.blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 4px solid var(--border);
+  background: var(--muted);
+  border-radius: 0 4px 4px 0;
+}
+
+.blockquote .paragraph {
+  margin: 0;
+}
+
+.preformatted {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  counter-reset: line;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  contain: layout;
+}
+
+.preformatted .code {
+  display: block;
+  max-width: 100%;
+  white-space: pre;
+  overflow-x: auto;
+  color: inherit;
+}
+
+.code {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  font-size: 0.9em;
+}
+
+/* Inline code (when not inside pre) */
+.paragraph .code:not(.preformatted .code),
+.listItem .code:not(.preformatted .code),
+.blockquote .code:not(.preformatted .code),
+.code:not(.preformatted .code) {
+  color: var(--primary);
+  background: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+.horizontalRule {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.strong {
+  font-weight: revert;
+  color: revert;
+}
+
+.emphasis {
+  font-style: revert;
+  color: revert;
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: revert;
+}
+
+.markdown em,
+.markdown strong,
+.markdown b {
+  all: revert;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.span {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  color: revert;
+}
+
+/* Line numbers for code blocks */
+.preformatted .code {
+  display: grid;
+}
+
+:root {
+  --fp-toc-enter-duration: 0.2s;
+  --fp-toc-enter-delay: 0.1s;
+  --fp-toc-enter-timing-function: linear(
+    0,
+    0.393 7.9%,
+    0.699 16.3%,
+    0.919 25.2%,
+    0.998 29.9%,
+    1.06 34.9%,
+    1.095 39.1%,
+    1.118 43.5%,
+    1.13 48.2%,
+    1.131 53.3%,
+    1.11 62.4%,
+    1.019 86.2%,
+    1.004 93.1%,
+    1
+  );
+}
+
+#fpHeadingAbstractions {
+  --fp-toc-offset: 56px;
+
+  position: absolute;
+  left: 4px; /* ml-1 */
+  top: 50%;
+  translate: 0 calc(-50% - var(--fp-toc-offset));
+  z-index: 10;
+  transform-origin: center;
+  width: 12px;
+  margin: var(--fp-toc-offset) var(--fp-toc-offset) var(--fp-toc-offset) 0; /* my-14 mr-14 */
+  transition:
+    opacity var(--fp-toc-enter-duration) var(--fp-toc-enter-timing-function),
+    scale var(--fp-toc-enter-duration) var(--fp-toc-enter-timing-function);
+
+  & > ul {
+    display: grid;
+    gap: 6px; /* gap-1.5 */
+
+    & > li {
+      transition: background-color 150ms ease-out;
+      height: 1px; /* h-px */
+      background-color: var(--muted-foreground); /* bg-muted-foreground */
+      border-radius: 9999px; /* rounded-full */
+
+      &[data-is-active="true"] {
+        background-color: var(--foreground); /* bg-foreground */
+      }
+    }
+  }
+
+  &[data-fp-toc-is-active="true"] {
+    scale: 1.1;
+    opacity: 0;
+  }
+}
+
+#fpTableOfContents {
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  z-index: 10;
+  transform-origin: center left;
+  border: 1px solid var(--border);
+  background-color: var(--muted);
+  padding: 16px; /* p-4 */
+  border-radius: calc(var(--radius) - 2px); /* rounded-md */
+  max-height: calc(100% - 4rem);
+  overflow-y: auto;
+
+  display: none;
+  transition: all var(--fp-toc-enter-duration) var(--fp-toc-enter-delay)
+    var(--fp-toc-enter-timing-function) allow-discrete;
+
+  ul,
+  li {
+    display: grid;
+    gap: 8px;
+  }
+
+  ul[data-is-nested="true"] {
+    margin-left: 12px; /* ml-3 */
+  }
+
+  a {
+    transition: color 100ms ease-out;
+    color: var(--muted-foreground);
+    line-height: 1;
+
+    &:hover,
+    &[data-is-active="true"] {
+      color: var(--primary-foreground);
+    }
+  }
+
+  &[data-fp-toc-is-active="true"] {
+    display: block;
+    opacity: 1;
+    scale: 1;
+    translate: 0 -50%;
+    pointer-events: auto;
+
+    @starting-style {
+      opacity: 0;
+      scale: 0.7;
+      translate: -16px -50%;
+    }
+  }
+}

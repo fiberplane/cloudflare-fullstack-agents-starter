@@ -1,0 +1,119 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fp-cf-starter",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-10-14",
+  /**
+   * Static Assets
+   * https://developers.cloudflare.com/workers/static-assets/binding/
+   */
+  "assets": {
+    // These are the frontend assets produced by the vite plugin when building
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    // Route API endpoints directly to the worker, to support our auth flow
+    "run_worker_first": ["/api/*"],
+    // Otherwise, not found handling renders our SPA, so the frontend router can take over
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "compatibility_flags": ["nodejs_compat"],
+  /**
+   * Smart Placement
+   * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+   */
+  "placement": { "mode": "smart" },
+
+  "vars": {
+    "CLOUDFLARE_ACCOUNT_ID": "my-cloudflare-account-id",
+    "CLOUDFLARE_AI_GATEWAY_ID": "fp-cf-starter"
+  },
+  /**
+   * Bindings
+   * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
+   * databases, object storage, AI inference, real-time communication and more.
+   * https://developers.cloudflare.com/workers/runtime-apis/bindings/
+   */
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fp-cf-starter",
+      "database_id": "fp-cf-starter-local-id",
+      "migrations_dir": "drizzle/migrations"
+    }
+  ],
+  /**
+   * Durable Objects
+   * https://developers.cloudflare.com/durable-objects/
+   */
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PersonalAgent",
+        "class_name": "PersonalAgent"
+      }
+    ]
+  },
+  /**
+   * Durable Object Migrations
+   * https://developers.cloudflare.com/durable-objects/reference/durable-objects-migrations/
+   */
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["PersonalAgent"]
+    }
+  ],
+  /**
+   * Environment Variables
+   * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+   */
+  // "vars": { "MY_VARIABLE": "production_value" }
+  /**
+   * Note: Use secrets to store sensitive data.
+   * https://developers.cloudflare.com/workers/configuration/secrets/
+   */
+  /**
+   * Service Bindings (communicate between multiple Workers)
+   * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
+   */
+  // "services": [{ "binding": "MY_SERVICE", "service": "my-service" }]
+  "env": {
+    "preview": {
+      "name": "fp-cf-starter-preview",
+      "observability": { "enabled": true },
+      "vars": {
+        "CLOUDFLARE_ACCOUNT_ID": "my-cloudflare-account-id",
+        "CLOUDFLARE_AI_GATEWAY_ID": "fp-cf-starter-preview"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "fp-cf-starter-preview",
+          "database_id": "fp-cf-starter-preview-local-id",
+          "migrations_dir": "drizzle/migrations"
+        }
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "PersonalAgent",
+            "class_name": "PersonalAgent"
+          }
+        ]
+      },
+      "migrations": [
+        {
+          "tag": "v1",
+          "new_sqlite_classes": ["PersonalAgent"]
+        }
+      ]
+    }
+  }
+}

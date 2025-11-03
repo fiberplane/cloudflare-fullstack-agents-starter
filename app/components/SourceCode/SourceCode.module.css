@@ -1,0 +1,14 @@
+.shiki {
+  padding: 0;
+}
+
+.line[data-line]::before {
+  content: attr(data-line);
+  display: inline-block;
+  min-width: 3.25em;
+  width: max-content;
+  padding-right: 1rem;
+  text-align: right;
+  color: hsl(var(--muted-foreground));
+  user-select: none;
+}

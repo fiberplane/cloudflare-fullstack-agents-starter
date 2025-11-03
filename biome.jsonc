@@ -1,0 +1,109 @@
+{
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!tsconfig*.json",
+      "!worker-configuration.d.ts",
+      "!app/routeTree.gen.ts",
+      "!dist",
+      "!.wrangler",
+      "!node_modules",
+      "!*.d.ts",
+      "!drizzle/migrations/meta/*.json",
+      "!worker/agent/storage/migrations/meta/*.json"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noConsole": "warn",
+        "noArrayIndexKey": { "level": "off" }
+      },
+      "performance": {
+        "noAccumulatingSpread": "error",
+        "recommended": true
+      },
+      "style": {
+        "useBlockStatements": {
+          "level": "error"
+        }
+      }
+    }
+  },
+  "json": {
+    "formatter": {
+      "enabled": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "indentWidth": 2,
+      "lineWidth": 100
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "css": {
+    "linter": {
+      "enabled": true
+    },
+    "parser": {
+      "cssModules": true
+    }
+  },
+  "overrides": [
+    {
+      // NOTE - We can remove this once we're on biome 2.3 or later
+      //        https://github.com/biomejs/biome/issues/7223
+      "includes": ["app/index.css"],
+      "linter": {
+        "enabled": false,
+        "rules": {
+          "suspicious": {
+            "noUnknownAtRules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        // Frontend deserves to be able to use console.log statements
+        "app/**/*.ts*",
+        "drizzle.config.ts",
+        "drizzle-do.config.ts",
+        "drizzle-scripts/**/*",
+        "**/*.test.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ]
+}
