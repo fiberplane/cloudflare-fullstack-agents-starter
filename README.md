@@ -14,8 +14,7 @@ A WIP example of how Fiberplane builds full-stack apps on top of Cloudflare.
   * _NOTE_ Vitest does not simulate workerd (Cloudflare) on the backend yet
 - Biome for linting and formatting
 - AGENTS.md (symlinked to CLAUDE.md) with development instructions for coding agents
-- mcp
-- (TODO) GitHub actions for testing and deploying
+- GitHub actions for testing and deploying
 
 **Backend**
 If you've seen the [HONC](https://honc.dev) templates, a lot of this will look familiar:
@@ -272,23 +271,36 @@ The app uses GitHub OAuth for authentication, which makes it challenging to use 
 
 For more information about Playwright MCP, see the [official documentation](https://github.com/microsoft/playwright-mcp).
 
-## Manual Testing
+## Deploying to Production
 
-Example test URLs:
-- https://math-tools-server-ef44gc.fp.dev/mcp 
-- https://mcp.linear.app/mcp
-- https://mcp.neon.tech/mcp
+### GitHub actions
 
-Bad example test URLs:
-- https://mcp.figma.com/mcp (will fail bc does not support DCR)
-- https://api.githubcopilot.com/mcp (will only work with a github api key header, not with DCR)
+There are GitHub actions defined in the `.github` folder. They require that certain secrets are set for CI. Read through them to get a sense of what you need to configure.
+
+Deploying to the preview environment will happen automatically. 
+
+Deploying to prod will need to be manually triggered from the GitHub UI.
+
+You can also manually trigger deploys to preview from (say) a branch.
+
+### Manual (from CLI)
+
+> **TODO** - This section needs some love, file an issue if you get stuck. A lot of this will require some manual tinkering.
+
+You will need to migrate the production D1 database and set the proper secrets.
+
+The quick version: You will want to follow the pattern in the [HONC](https://docs.honc.dev/stack/databases/#creating-a-remote-database) D1 templates for migrating production databases. This might prove a little tricky to wire up yourself.
+
+Quickly set production secrets with the `scripts/push-secrets.sh` script. 
+
+**IMPORTANT** You will want a strong `BETTER_AUTH_SECRET`!!! Do not just `scripts/push-secrets.sh .dev.vars` - take extra care for the secrets you set in production.
 
 ## TODOs
 
 - [ ] Replace the Favicon
-- [ ] LLM config tweaks (system prompt, etc)
-- [ ] Consolidate UI
-- [ ] MCP configuration
+- [ ] Configure system prompt for agent
+- [ ] Just make the UI better
+- [ ] Configure MCP servers to use with agent
 
 **NICE TO HAVES**
 - [ ] Explain ...
