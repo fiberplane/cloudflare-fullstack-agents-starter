@@ -52,7 +52,7 @@ function Index() {
         <div className="w-full max-w-md space-y-8 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tight text-foreground">
-              Welcome to Fiberplane
+              Welcome to the Personal Agent Launcher System (PALS)
             </h2>
             <p className="text-base text-muted-foreground">Please sign in to continue.</p>
           </div>
