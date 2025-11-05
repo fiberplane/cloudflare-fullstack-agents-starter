@@ -1,3 +1,11 @@
+# TEMPLATE NOTE: This workflow allows manual deployments via GitHub Actions UI.
+# 
+# To use this workflow, you need to:
+# 1. Configure GitHub secrets (see .github/README.md for required secrets)
+# 2. Go to Actions tab > Deploy PALS (manual) > Run workflow
+# 3. Select the environment (preview or prod) you want to deploy to
+#
+# This provides a safe way to deploy without enabling automatic deployments.
 name: Deploy PALS (manual)
 on:
   workflow_dispatch:

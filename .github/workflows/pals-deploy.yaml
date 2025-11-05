@@ -1,4 +1,13 @@
 ---
+# TEMPLATE NOTE: This is a reusable deployment workflow.
+# It is currently disabled by default in the test workflow (pals-test.yaml).
+# 
+# To enable deployments, you need to:
+# 1. Configure GitHub secrets (see .github/README.md for required secrets)
+# 2. Enable the deploy-to-preview job in pals-test.yaml
+# 3. Optionally, customize the deployment steps for your environment
+#
+# This workflow can also be triggered manually via pals-deploy-manual.yaml
 name: Deploy PALS
 on:
   workflow_call:
