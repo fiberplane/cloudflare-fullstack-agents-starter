@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bot, Plus } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
+import { PageErrorState } from "@/app/components/PageErrorState";
 import { PageLoadingState } from "@/app/components/PageLoadingState";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import {
@@ -14,6 +15,15 @@ export const Route = createFileRoute("/_authenticated/agents/")({
     context.queryClient.prefetchQuery(listPersonalAgentsQueryOptions());
   },
   pendingComponent: () => <PageLoadingState message="Loading agents..." />,
+  errorComponent: ({ error, reset }) => (
+    <PageErrorState
+      title="Error Loading Agents"
+      message={error instanceof Error ? error.message : "Failed to load agents"}
+      onRetry={reset}
+      backTo="/dashboard"
+      backLabel="Go to Dashboard"
+    />
+  ),
   component: AgentsList,
 });
 
