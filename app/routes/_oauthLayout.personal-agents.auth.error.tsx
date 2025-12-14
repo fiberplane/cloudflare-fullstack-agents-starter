@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertCircle } from "lucide-react";
+import { z } from "zod";
 import { Button } from "@/app/components/ui/button";
 
+const searchSchema = z.object({
+  error: z.string().optional().default("Unknown error occurred"),
+});
+
 export const Route = createFileRoute("/_oauthLayout/personal-agents/auth/error")({
+  validateSearch: searchSchema,
   component: OAuthErrorComponent,
-  validateSearch: (search: Record<string, unknown>) => {
-    return {
-      error: (search.error as string) || "Unknown error occurred",
-    };
-  },
 });
 
 function OAuthErrorComponent() {

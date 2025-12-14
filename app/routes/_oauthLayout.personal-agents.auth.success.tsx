@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2 } from "lucide-react";
+import { z } from "zod";
 import { Button } from "@/app/components/ui/button";
 
+const searchSchema = z.object({
+  fitCheckId: z.string().optional(),
+});
+
 export const Route = createFileRoute("/_oauthLayout/personal-agents/auth/success")({
+  validateSearch: searchSchema,
   component: OAuthSuccessComponent,
-  validateSearch: (search: Record<string, unknown>) => {
-    return {
-      fitCheckId: (search.fitCheckId as string) || undefined,
-    };
-  },
 });
 
 function OAuthSuccessComponent() {

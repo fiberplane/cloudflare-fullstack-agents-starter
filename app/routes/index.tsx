@@ -1,20 +1,13 @@
-import { createFileRoute, type SearchSchemaInput, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 
-type SearchInput = {
-  redirect?: string;
-};
-
-type SearchOutput = {
-  redirect: string | undefined;
-};
+const searchSchema = z.object({
+  redirect: z.string().optional(),
+});
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: SearchInput & SearchSchemaInput): SearchOutput => {
-    return {
-      redirect: search.redirect || undefined,
-    };
-  },
+  validateSearch: searchSchema,
   component: Index,
 });
 
