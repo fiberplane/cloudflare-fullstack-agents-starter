@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bot, Plus } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
+import { PageLoadingState } from "@/app/components/PageLoadingState";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import {
   listPersonalAgentsQueryOptions,
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/_authenticated/agents/")({
     // Prefetch agents list for instant rendering
     context.queryClient.prefetchQuery(listPersonalAgentsQueryOptions());
   },
+  pendingComponent: () => <PageLoadingState message="Loading agents..." />,
   component: AgentsList,
 });
 
