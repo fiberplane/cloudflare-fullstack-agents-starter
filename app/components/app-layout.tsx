@@ -1,6 +1,7 @@
 import { Outlet } from "@tanstack/react-router";
 import { AppHeader } from "@/app/components/app-header";
 import { AppSidebar } from "@/app/components/app-sidebar";
+import { LayoutContent, LayoutMain } from "@/app/components/ui/layout";
 import { SidebarInset, SidebarProvider } from "@/app/components/ui/sidebar";
 
 export function AppLayout() {
@@ -10,11 +11,11 @@ export function AppLayout() {
         <AppSidebar />
         <SidebarInset className="flex flex-1 flex-col">
           <AppHeader />
-          <main className="flex-1 p-4 md:p-6 lg:p-8">
-            <div className="mx-auto max-w-7xl">
+          <LayoutMain>
+            <LayoutContent>
               <Outlet />
-            </div>
-          </main>
+            </LayoutContent>
+          </LayoutMain>
         </SidebarInset>
       </div>
     </SidebarProvider>
