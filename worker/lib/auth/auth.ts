@@ -61,6 +61,14 @@ export const createAuth = (env: CloudflareBindings) => {
     },
     baseURL: env.BETTER_AUTH_URL,
     secret: env.BETTER_AUTH_SECRET,
+    session: {
+      expiresIn: 60 * 60 * 24 * 7, // 7 days
+      updateAge: 60 * 60 * 24, // 1 day (update session if older than this)
+      cookieCache: {
+        enabled: true,
+        maxAge: 60 * 5, // 5 minutes - cache session in cookie to reduce DB lookups
+      },
+    },
     advanced: {
       cookiePrefix: "fpc",
     },
