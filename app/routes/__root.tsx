@@ -3,6 +3,7 @@ import { createRootRouteWithContext, Outlet, useMatches } from "@tanstack/react-
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { createAuthClient } from "better-auth/client";
 import { AppLayout } from "@/app/components/app-layout";
+import { RootErrorBoundary } from "@/app/components/RootErrorBoundary";
 import { Toaster } from "@/app/components/ui/sonner";
 
 export interface User {
@@ -56,4 +57,7 @@ const RootLayout = () => {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootLayout,
+  errorComponent: ({ error, reset }) => (
+    <RootErrorBoundary error={error} reset={reset} />
+  ),
 });
