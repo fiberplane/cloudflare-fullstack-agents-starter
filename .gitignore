@@ -37,3 +37,6 @@ dist-ssr
 
 # Playwright test files
 .playwright-storage.json
+
+# FP snapshot directory (isolated git repo for workdir snapshots)
+.fp/snapshots/
