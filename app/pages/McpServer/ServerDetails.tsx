@@ -18,10 +18,10 @@ import {
 } from "@/app/components/ui/dropdown-menu";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import { TooltipProvider } from "@/app/components/ui/tooltip";
-import type { McpServerInfo, McpServerUiState } from "@/app/machines/mcp-server";
+import type { AgentUiState, McpServerInfo } from "@/app/lib/agent-state";
 
 interface ServerDetailsProps {
-  uiState: McpServerUiState;
+  uiState: AgentUiState;
   server: McpServerInfo | null;
   tools: Array<{ name: string; description?: string }>;
   fitCheck: {

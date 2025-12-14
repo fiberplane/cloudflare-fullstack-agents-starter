@@ -12,7 +12,7 @@ import {
   usePersonalAgentQuery,
   useUpdatePersonalAgentMutation,
 } from "@/app/lib/queries/personal-agents";
-import { useMcpServer } from "@/app/machines/mcp-server";
+import { useAgentConnection } from "@/app/lib/agent-state";
 
 export const Route = createFileRoute("/_authenticated/agents/$id/")({
   component: AgentDetails,
@@ -29,7 +29,7 @@ function AgentDetails() {
   const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { agent: agentConnection } = useMcpServer(id);
+  const { agent: agentConnection } = useAgentConnection({ agentId: id });
   const chat = useAgentChat({
     agent: agentConnection,
   });

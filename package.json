@@ -54,7 +54,6 @@
     "@tanstack/react-query": "^5.90.5",
     "@tanstack/react-router": "^1.133.20",
     "@tanstack/react-router-devtools": "^1.133.20",
-    "@xstate/react": "^6.0.0",
     "agents": "^0.2.26",
     "ai": "^5.0.103",
     "ai-gateway-provider": "^2.0.0",
@@ -84,7 +83,6 @@
     "throttle-debounce": "^5.0.2",
     "unified": "^11.0.5",
     "use-stick-to-bottom": "^1.1.1",
-    "xstate": "^5.23.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
