@@ -2,9 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bot, Plus } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { Skeleton } from "@/app/components/ui/skeleton";
-import { useListPersonalAgentsQuery } from "@/app/lib/queries/personal-agents";
+import {
+  listPersonalAgentsQueryOptions,
+  useListPersonalAgentsQuery,
+} from "@/app/lib/queries/personal-agents";
 
 export const Route = createFileRoute("/_authenticated/agents/")({
+  loader: ({ context }) => {
+    // Prefetch agents list for instant rendering
+    context.queryClient.prefetchQuery(listPersonalAgentsQueryOptions());
+  },
   component: AgentsList,
 });
 

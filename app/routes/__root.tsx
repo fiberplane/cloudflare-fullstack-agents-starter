@@ -1,3 +1,4 @@
+import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet, useMatches } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { createAuthClient } from "better-auth/client";
@@ -20,6 +21,7 @@ export interface AuthContextType {
 
 export interface RouterContext {
   auth: AuthContextType;
+  queryClient: QueryClient;
 }
 
 const RootLayout = () => {

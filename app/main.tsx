@@ -29,6 +29,7 @@ const router = createRouter({
   context: {
     // biome-ignore lint/style/noNonNullAssertion: Auth context will be provided by RouterProvider
     auth: undefined!,
+    queryClient,
   },
 });
 
@@ -76,7 +77,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} context={{ auth }} />
+      <RouterProvider router={router} context={{ auth, queryClient }} />
     </QueryClientProvider>
   );
 }
