@@ -7,12 +7,12 @@ import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import { useHandler } from "@/app/hooks/useHandler";
+import { useAgentConnection } from "@/app/lib/agent-state";
 import {
   useDeletePersonalAgentMutation,
   usePersonalAgentQuery,
   useUpdatePersonalAgentMutation,
 } from "@/app/lib/queries/personal-agents";
-import { useAgentConnection } from "@/app/lib/agent-state";
 
 export const Route = createFileRoute("/_authenticated/agents/$id/")({
   component: AgentDetails,

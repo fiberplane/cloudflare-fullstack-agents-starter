@@ -1,4 +1,4 @@
-import { Agent as BaseAgent } from "agents";
+import type { Agent as BaseAgent } from "agents";
 
 /**
  * Re-export the Agent class from the agents SDK with documented Props pattern.

@@ -1,6 +1,5 @@
-export { createAgentStore, type AgentStore } from "./store";
 export { deriveUiState, getDisableReason } from "./derive-ui-state";
-export { useAgentConnection, type UseAgentConnectionOptions } from "./use-agent-connection";
+export { type AgentStore, createAgentStore } from "./store";
 export type {
   AgentConnectionState,
   AgentUiState,
@@ -8,3 +7,4 @@ export type {
   McpServerInfo,
   McpToolInfo,
 } from "./types";
+export { type UseAgentConnectionOptions, useAgentConnection } from "./use-agent-connection";
