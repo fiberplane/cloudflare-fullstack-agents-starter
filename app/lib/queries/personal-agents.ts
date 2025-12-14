@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export type PersonalAgent = {
   id: string;
@@ -8,31 +8,52 @@ export type PersonalAgent = {
   updatedAt: number;
 };
 
-export function useListPersonalAgentsQuery() {
-  return useQuery({
-    queryKey: ["personal-agents"],
+// Query key constants for consistency
+export const PERSONAL_AGENTS_KEY = "personal-agents";
+
+/**
+ * Query options for fetching all personal agents.
+ * Can be used in route loaders for prefetching:
+ * `context.queryClient.prefetchQuery(listPersonalAgentsQueryOptions())`
+ */
+export const listPersonalAgentsQueryOptions = () =>
+  queryOptions({
+    queryKey: [PERSONAL_AGENTS_KEY],
     queryFn: async (): Promise<PersonalAgent[]> => {
       const response = await fetch("/api/v1/agents/personal-agents");
       if (!response.ok) {
         throw new Error("Failed to fetch personal agents");
       }
+
       return response.json();
     },
   });
-}
 
-export function usePersonalAgentQuery(id: string) {
-  return useQuery({
-    queryKey: ["personal-agents", id],
+/**
+ * Query options for fetching a single personal agent by ID.
+ * Can be used in route loaders for prefetching:
+ * `context.queryClient.prefetchQuery(personalAgentQueryOptions(id))`
+ */
+export const personalAgentQueryOptions = (id: string) =>
+  queryOptions({
+    queryKey: [PERSONAL_AGENTS_KEY, id],
     queryFn: async (): Promise<PersonalAgent> => {
       const response = await fetch(`/api/v1/agents/personal-agents/${id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch personal agent");
       }
+
       return response.json();
     },
     enabled: !!id,
   });
+
+export function useListPersonalAgentsQuery() {
+  return useQuery(listPersonalAgentsQueryOptions());
+}
+
+export function usePersonalAgentQuery(id: string) {
+  return useQuery(personalAgentQueryOptions(id));
 }
 
 export function useCreatePersonalAgentMutation() {
@@ -59,7 +80,7 @@ export function useCreatePersonalAgentMutation() {
     },
     onSuccess: () => {
       // Invalidate and refetch personal agents list
-      queryClient.invalidateQueries({ queryKey: ["personal-agents"] });
+      queryClient.invalidateQueries({ queryKey: [PERSONAL_AGENTS_KEY] });
     },
   });
 }
@@ -90,8 +111,8 @@ export function useUpdatePersonalAgentMutation() {
     },
     onSuccess: (data) => {
       // Invalidate and refetch both the list and the specific personal agent
-      queryClient.invalidateQueries({ queryKey: ["personal-agents"] });
-      queryClient.invalidateQueries({ queryKey: ["personal-agents", data.id] });
+      queryClient.invalidateQueries({ queryKey: [PERSONAL_AGENTS_KEY] });
+      queryClient.invalidateQueries({ queryKey: [PERSONAL_AGENTS_KEY, data.id] });
     },
   });
 }
@@ -116,7 +137,7 @@ export function useDeletePersonalAgentMutation() {
     },
     onSuccess: () => {
       // Invalidate and refetch personal agents list
-      queryClient.invalidateQueries({ queryKey: ["personal-agents"] });
+      queryClient.invalidateQueries({ queryKey: [PERSONAL_AGENTS_KEY] });
     },
   });
 }
